@@ -1,0 +1,77 @@
+<div class="header">
+% my $background_color_green 	= q(<td style="text-align:center;background-color:#b3ffcc">);
+% my $background_color_red 		= q(<td style="text-align:center;background-color:#ffcccc">);
+<table>
+	%# Primera fila {{{
+	<tr>
+		<td>
+			%= link_to 'Inici' => '/admin/inici';
+		</td>
+		<td>
+			%= link_to 'Afegir Sessions' => '/admin/afegir_sessio/1505736000';
+		</td>
+		<td style="width: 0.4em;"></td>
+			% for my $modul ( @$moduls ) {
+				<td style="padding: 0.1em; text-align: center"><b>
+						%= link_to $modul->modul => "/admin/modul/" . $modul->modul;
+				</b></td>
+			% }
+		<td></td>
+	</tr>
+	%# }}}
+	%# Segona fila: hores calendari {{{
+	<tr>
+		<td>
+			%= link_to 'Calendari' => '/admin/calendari';
+		</td>
+		<td style="text-align: right">Hores Crd.: </td>
+		<td></td>
+		%# Array-ref d'objectes de mòdul
+		% for my $modul ( @{$moduls} ) {
+
+			% my $credits	= $modul->credits * 5;
+			%# Fem servir n_estud per M5d/M6
+			% $credits = $modul->n_estud if $modul->modul =~ /M5d|M6/ ;
+
+			%# Aquí ja fer servir n_estud
+			% my $h_class = $modul->sessio_modul_hores;
+
+			% if ( $h_class eq $credits ) {
+				%== $background_color_green 
+			% } else {
+				%== $background_color_red 
+			% }
+				<%= $credits %>
+		% }
+		</td>
+		<td></td>
+	</tr>
+	%# }}}
+	%# Tercera fila: hores docents {{{
+	<tr>
+		<td>
+			%= link_to 'Mode Normal' => '/pub/inici';
+		</td>
+		<td style="text-align: right">Hores Docents: </td>
+		<td></td>
+			% for my $modul ( @$moduls ) {
+				% my $credits	= $modul->credits * 5;
+				%# Fem servir n_estud per M5d/M6
+				% $credits = $modul->n_estud if $modul->modul =~ /M5d|M6/ ;
+
+				%# Aquí ja es fa servir n_estuda per M5d/M6
+				% my $h_class = $modul->sessio_modul_hores;
+
+				% if ( $h_class eq $credits ) {
+					%== $background_color_green 
+				% } else {
+					%== $background_color_red 
+				% }
+				<%= $h_class %>
+			% }
+		</td>
+		<td></td>
+	</tr>
+	%# }}}
+</table>
+</div>

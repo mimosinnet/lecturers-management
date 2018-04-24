@@ -1,0 +1,165 @@
+% layout 'admin';
+% title 'Afegir Sessions';
+% use DateTime;
+
+%# Aspectes comuns a ambdues forms {{{
+% my $table_heading =	q(<tr><th></th><th>Dia</th><th>Fest</th><th>Hora</th><th>Dur.</th><th>Mòdul</th><th>Docent</th><th style="width: 50%;">Títol Sessió</th></tr>);
+
+%# Afegir Sessió {{{
+
+%= t h2 => "Afegir Sessió"
+
+<form action="/admin/set_sessio" method="post">
+<table>
+	%== $table_heading;
+	<tr>
+		%# Submit and hidden fields {{{
+		<td>
+			<input type="submit" value="Afegeig">
+		</td>
+		%# }}}
+		%# date {{{
+		<td>
+			<input type="date" name="date" value="<%= $inici_ymd %>" min="<%= $data_min %>" max="<%= $data_max %>">
+		</td>
+		%# }}}
+		%# festa {{{
+		<td>
+			<select name="festa">
+				<option value="0">no</option>
+				<option value="1">si</option>
+			</select>
+		</td>
+		%# }}}
+		%# Hora {{{
+		<td>
+			<select name="hora">
+				<option value="17">17:00</option>
+				%== $tags->tag_hora;
+			</select>
+		</td>
+		%# }}}
+		%# Durada {{{
+		<td>
+			<select name="durada">
+				%== $tags->tag_durada;
+			</select>
+		</td>
+		%# }}}
+		%# Mòduls {{{
+		<td>
+			<select name="modul">
+				%== $tags->tag_modul;
+			</select>
+		</td>
+		%# }}}
+		%# Docent {{{
+		<td>
+			<select name="docent">
+				%== $tags->tag_docent;
+			</select>
+		</td>
+		%# }}}
+		%# Tema {{{
+		<td>
+			<input type="text" name="tema" value="Títol de la sessió" style="width: 100%">
+		</td>
+		%# }}}
+	</tr>
+</table>
+</form>
+
+%# }}}
+
+%# Anar a Sessió {{{
+<form action="/admin/anar_sessio" method="post">
+	<h2>
+		Sessions Programades del <input type="date" name="anar_data" value="<%= $inici_ymd %>"> al <%= $fi %>
+		<input type="submit" value="Nova Data">
+	</h2>
+</form>
+%# }}}
+
+%# Taula: update y borrar sessions {{{
+<table>
+	%== $table_heading;
+	%# $sessions és un arrayref d'objectes "sessio"
+	% foreach my $sessio ( @$sessions ) {
+		<tr>
+			%# update_sessio {{{
+			<form action="/admin/update_sessio" method="post">
+			%# submit modifica {{{
+			<td>
+				<input type="hidden" name="id" 	value="<%= $sessio->id %>">
+				<input type="hidden" name="url"	value="<%= "/admin/afegir_sessio/" . $sessio->date_num %>">
+				<input type="submit" value="Modifica">
+			</td>
+			%# }}}
+			%# date {{{
+			<td>
+				<input type="date" name="date" value="<%= $sessio->sessio_date->{'ymd'} %>" min="<%= $data_min %>" max="<%= $data_max %>">
+			</td>
+			%# }}}
+			%# festa {{{
+			<td>
+				<select name="festa">
+					<option value="<%= $sessio->festa %>"><%= $sessio->festa %></option>
+					<option value="0">no</option>
+					<option value="1">si</option>
+				</select>
+			</td>
+			%# }}}
+			%# hora {{{
+			<td>
+				<select name="hora">
+					<option value="<%= $sessio->sessio_hora->{'inici'} %>"><%= $sessio->sessio_hora->{'inici'} . ":00" %></option>
+					%== $tags->tag_hora
+				</select>
+			</td>
+			%# }}}
+			%# durada {{{
+			<td>
+				<select name="durada">
+					<option value="<%= $sessio->durada %>"><%= $sessio->durada . "h"%></option>
+					%== $tags->tag_durada;
+				</select>
+			</td>
+			%# }}}
+			%# modul {{{
+			<td>
+				<select name="modul">
+					<option value="<%= $sessio->modul %>"><%= $sessio->modul %></option>
+					%== $tags->tag_modul;
+				</select>
+			</td>
+			%# }}}
+			%# docent {{{
+			<td>
+				<select name="docent">
+					<option value="<%= $sessio->docent %>"><%= $sessio->doc_nom %></option>
+					%== $tags->tag_docent;
+				</select>
+			</td>
+			%# }}}
+			%# tema {{{
+			<td>
+				<input type="text" name="tema" value="<%= $sessio->tema %>" style="width: 100%">
+			</td>
+			%# }}}
+			%# }}}
+			</form>
+				%# borrar_sessio {{{
+				<td>
+					<form action="/admin/borrar_sessio" method="get">
+						<input type="hidden" name="id" 	value="<%= $sessio->id %>">
+						<input type="hidden" name="url" value="<%= "/admin/afegir_sessio/$date_num" %>">
+						<input type="submit" value="Esborra">
+					</form>
+				</td>
+				%# }}}
+
+		</tr>
+	% }
+</table>
+%# }}}
+

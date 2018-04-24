@@ -1,0 +1,14 @@
+% layout 'public';
+% title 'Gestió Màster';
+
+<h1>Màster Investigació i Intervenció Psicosocial</h1>
+
+<ul style="font-size: 1.5em;">
+	<li><a href="/pub/moduls">Mòduls</a></li>
+	<li><a href="/pub/carrega_docent">Càrrega Docent</a></li>
+	<li><a href="/pub/calendari">Calendari</a></li>
+	<li><a href="/pub/centres">Centres de Pràctiques</a></li>
+	% foreach my $mod ( @{ $moduls } ) {
+		<li><a href="<%= '/pub/modul/' . $mod->modul %>"><%= $mod->modul . ": " . $mod->nom_modul %></a></li>
+	% }
+</ul>

@@ -1,0 +1,18 @@
+% layout 'public';
+% title 'Centres de Pràctiques';
+
+%= t h1 => "Centres de Pràctiques";
+
+<table>
+	<tr>
+		<th>Places</th><th></th><th style="text-align:left;">Docent</th><th>Centre</th>
+	</tr>
+	% foreach my $centre ( @$centres ) {
+		<tr>
+			<td><%= $centre->places 	%></td>
+			<td><%= $centre->docent		%></td>
+			<td><%= $centre->doc_nom	%></td>
+			<td><%= $centre->centre		%></td>
+		</tr>
+	% }
+</table>

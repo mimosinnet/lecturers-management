@@ -1,0 +1,34 @@
+% layout 'public';
+% title "Mòdul " . $mod->modul;
+
+%= t h1 => $mod->modul . " " . $mod->nom_modul;
+%= t h3 => "Mòdul " . $mod->tipus . ", " . $mod->credits . " Crèdits (" . $mod->sessio_modul_hores . " h.docents, " . $mod->total . " h.totals)";
+%= t h2 => "Persona que coordina: " . $mod->doc_nom;
+
+<p><b>Docents</b>: <%== $h_docents %></p>
+
+%# Taula {{{
+<table style="text-align: center;">
+	<tr><th>Dia</th><th>Hora</th><th>Dur.</th><th>Docent</th><th style="width: 50%;">Títol Sessió</th></tr>
+	% foreach my $sessio ( @$sessions ) {
+		<tr style="border: 1px solid black">
+			<td>
+				<%= $sessio->sessio_date->{'ymd'} %>
+			</td>
+			<td>
+				<%= $sessio->sessio_hora->{'inici'} . ":00" %>
+			</td>
+			<td>
+				<%= $sessio->durada . "h"%>
+			</td>
+			<td>
+				<%= $sessio->doc_nom %>
+			</td>
+			<td style="text-align: left">
+				<%= $sessio->tema %>
+			</td>
+		</tr>
+	% }
+</table>
+%# }}}
+

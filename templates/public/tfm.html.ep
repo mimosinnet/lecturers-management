@@ -1,0 +1,50 @@
+% layout 'public';
+% title "Mòdul M5d/M6";
+
+
+%= t h1 => $M5d->modul . " " . $M5d->nom_modul;
+<h3>
+    Mòdul
+    %= $M5d->tipus
+    ,
+    %= $M5d->credits
+    Crèdits, 
+    %= $M5d->total
+    h.totals,
+    %= $M5d->n_estud
+    estudiants.
+</h3>
+%= t h1 => $M6->modul . " " . $M6->nom_modul;
+<h3>
+    Mòdul
+    %= $M6->tipus
+    ,
+    %= $M6->credits
+    Crèdits, 
+    %= $M6->total
+    h.totals,
+    %= $M6->n_estud
+    estudiants.
+</h3>
+%= t h2 => "Coordina " . $M5d->doc_nom . " (M5) i " . $M6->doc_nom . " (M6)";
+
+<p><%== $h_tfm %></p>
+
+%# Taula {{{
+<table style="text-align: center;">
+	<tr><th>M5</th><th>M6</th><th>Docent</th><th>Estudiant</th><th>Tema</th><th>Observacions</th></tr>
+	% foreach my $tfm ( @$tfm ) {
+		<tr style="border: 1px solid black">
+      <td><%= $tfm->M5d %></td>
+      <td><%= $tfm->M6  %></td>
+			<td style="text-align:left;">
+				<%= $tfm->doc_nom %>
+			</td>
+			<td><%= $tfm->estud %></td>
+			<td style="min-width:5em"><%= $tfm->titol %></td>
+      <td><%= $tfm->observ %></td>
+		</tr>
+	% }
+</table>
+%# }}}
+

@@ -1,0 +1,29 @@
+% layout 'admin';
+% title 'Calendari';
+
+<h1>Calendari</h1>
+
+%# Fem servir $calendar, que és una referència a $calendar, una matriu que guarda els calendaris de cada mes
+
+<table style="width: 100%;">
+	% my @calendar_keys = sort keys %$calendar;
+	% while ( @calendar_keys ) {
+	<tr>
+		<td style="vertical-align: top; width: 33%;">
+			% if ( @calendar_keys ) {
+				%== $calendar->{ shift @calendar_keys }->as_HTML;
+			% }
+		</td>
+		<td style="vertical-align: top; width: 33%;">
+			% if ( @calendar_keys ) {
+				%== $calendar->{ shift @calendar_keys }->as_HTML;
+			% }
+		</td>
+		<td style="vertical-align: top; width: 33%;">
+			% if ( @calendar_keys ) {
+				%== $calendar->{ shift @calendar_keys }->as_HTML;
+			% }
+		<td>
+	</tr>
+	% }
+</table>

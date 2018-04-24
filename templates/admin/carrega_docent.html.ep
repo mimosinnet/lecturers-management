@@ -1,0 +1,21 @@
+% layout 'admin';
+% title 'Carrega Docent';
+
+%= t h1 => "Carrega Docent";
+
+<p><b>DPBEE: </b><%= $dpbee %>, <b>DPS: </b><%= $dps %></p>
+
+<table>
+	<tr>
+		<th>Dpart.</th><th>Hores</th><th>Docent</th><th>Moduls</th>
+	</tr>
+	% foreach my $docent ( @$docents ) {
+		<tr>
+			<td><%= $docent->depart %></td>
+			<td><%= $docent->hores %></td>
+			<td><%= $docent->docent %></td>
+			<td><%= $docent->moduls %></td>
+		</tr>
+
+	% }
+</table>

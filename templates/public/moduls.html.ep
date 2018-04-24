@@ -1,0 +1,29 @@
+% layout 'public';
+% title 'Mòduls';
+
+%= t h1 => "Mòduls";
+
+<hr />
+
+<table>
+	<tr>
+		<th>Coordinadora</th><th></th><th>Mòdul</th><th>Tipus</th><th>Crèdits</th><th>Semestre</th><th>Docents</th>
+	</tr>
+	% foreach my $modul ( @$moduls ) {
+		% my $llista_docents;
+    % foreach my $key ( sort keys %{ $modul->docents } ) { $llista_docents .= "$key, " }
+		<tr>
+			<td><%= $modul->doc_nom	%></td>
+			<td>
+				%= link_to $modul->modul => '/pub/modul/' .  $modul->modul;
+			</td>
+			<td>
+				%= link_to $modul->nom_modul => '/pub/modul/' .  $modul->modul; 
+			</td>
+			<td style="text-align:center"><%= $modul->tipus 		%></td>
+			<td style="text-align:center"><%= $modul->credits 	%></td>
+			<td style="text-align:center"><%= $modul->semestre 	%></td>
+			<td><%= $llista_docents 	%></td>
+		</tr>
+	% }
+</table>

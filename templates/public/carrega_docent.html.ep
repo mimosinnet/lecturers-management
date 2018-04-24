@@ -1,0 +1,29 @@
+% layout 'public';
+% title 'Càrrega Docent';
+
+%= t h1 => "Càrrega Docent";
+
+<hr />
+
+<p><b>Hores Departament</b>: 
+	% foreach my $dep ( @$departs ) {
+    <b><%= $dep->codi %></b>: <%= $dep->h_dept %>, 
+	% }
+</p>
+
+<hr />
+
+<table>
+	<tr>
+		<th>Dpart.</th><th>Hores</th><th>Docent</th><th style="text-align:left">Moduls</th>
+	</tr>
+	% foreach my $docent ( @$docents ) {
+    % next unless defined $docent->hores;
+			<td><%= $docent->depart %></td>
+			<td style="text-align:right"><%= $docent->hores %></td>
+			<td><%= $docent->docent %></td>
+			<td><%= $docent->moduls %></td>
+		</tr>
+
+	% }
+</table>

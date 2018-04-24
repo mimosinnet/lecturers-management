@@ -1,0 +1,61 @@
+% layout 'gestio';
+% title "Mòdul " . $modul_obj->modul;
+
+%= t h1 => $modul_obj->modul . " " . $modul_obj->nom_modul;
+%= t h3 => "Mòdul " . $modul_obj->tipus . ", " . $modul_obj->credits . " Crèdits (" . $modul_obj->sessio_modul_hores . " h)";
+%= t h2 => "Persona que coordina: " . $modul_obj->doc_nom;
+
+<p><b>Docents</b>: <%== $h_docents %></p>
+
+%# Taula {{{
+<table style="text-align: center;">
+	<tr><th></th><th>Dia</th><th>Hora</th><th>Dur.</th><th>Docent</th><th style="width: 50%;">Títol Sessió</th></tr>
+	% foreach my $sessio ( @$sessions ) {
+		<tr>
+			<form action="/ges/update_sessio" method="post">
+			%# submit modifica {{{
+			<td>
+				<input type="hidden" name="id" 		value="<%= $sessio->id %>">
+				<input type="hidden" name="festa" value="0">
+				<input type="hidden" name="modul" value="<%= $sessio->modul %>">
+				<input type="hidden" name="date" value="<%= $sessio->sessio_date->{'ymd'} %>">
+				<input type="hidden" name="hora" value="<%= $sessio->sessio_hora->{'inici'} %>">
+				<input type="hidden" name="durada" value="<%= $sessio->durada %>">
+				<input type="submit" value="Modifica">
+			</td>
+			%# }}}
+			%# date {{{
+			<td>
+				<%= $sessio->sessio_date->{'ymd'} %>
+			</td>
+			%# }}}
+			%# hora {{{
+			<td>
+				<%= $sessio->sessio_hora->{'inici'} . ":00" %>
+			</td>
+			%# }}}
+			%# durada {{{
+			<td>
+				<%= $sessio->durada . "h"%>
+			</td>
+			%# }}}
+			%# docent {{{
+			<td>
+				<select name="docent">
+					<option value="<%= $sessio->docent %>"><%= $sessio->doc_nom %></option>
+					%== $tag->tag_docent;
+				</select>
+			</td>
+			%# }}}
+			%# tema {{{
+			<td>
+				<input type="text" name="tema" value="<%= $sessio->tema %>" style="width: 150%">
+			</td>
+			%# }}}
+			</form>
+		</tr>
+	% }
+</table>
+
+%# }}}
+

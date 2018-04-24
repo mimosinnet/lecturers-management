@@ -1,0 +1,44 @@
+% layout 'admin';
+% title 'Mòduls';
+
+%= t h1 => "Mòduls";
+
+<hr />
+
+<table>
+	<tr>
+		<th></th><th>Coordinadora</th><th></th><th>Mòdul</th><th>Tipus</th><th>Crèdits</th><th>Semestre</th>
+	</tr>
+	% foreach my $modul ( @$moduls ) {
+		% my $llista_docents;
+    % foreach my $key ( sort keys %{ $modul->docents } ) { $llista_docents .= "$key, " }
+		<tr>
+			<form action="/admin/set_coord" method="get">
+			%# submit modifica {{{
+			<td>
+				<input type="hidden" name="modul"	value="<%= $modul->modul %>">
+				<input type="submit" value="Modifica">
+			</td>
+			%# }}}
+			%# Coordinadora {{{
+			<td>
+				<select name="coord">
+					<option value="<%= $modul->coord %>"><%= $modul->doc_nom %></option>
+					%== $tag->tag_docent;
+				</select>
+			</td>
+			</form>
+			%# }}}
+      <td>
+				%= link_to $modul->modul => '/admin/modul/' .  $modul->modul;
+			</td>
+			<td>
+				%= link_to $modul->nom_modul => '/admin/modul/' .  $modul->modul; 
+			</td>
+			<td style="text-align:center"><%= $modul->tipus 		%></td>
+			<td style="text-align:center"><%= $modul->credits 	%></td>
+			<td style="text-align:center"><%= $modul->semestre 	%></td>
+			<td><%= $llista_docents 	%></td>
+		</tr>
+	% }
+</table>

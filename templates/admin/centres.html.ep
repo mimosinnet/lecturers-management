@@ -1,0 +1,67 @@
+% layout 'admin';
+% title 'Centres de Pràctiques';
+% my $m5d = $moduls->[11];
+
+%= t h1 => "Centres de Pràctiques";
+%= t h2 => $m5d->modul . " " . $m5d->nom_modul
+
+<hr />
+
+<table>
+	<tr>
+		<th></th><th>Places</th><th>Docent</th><th style="min-width:200px">Centre</th><th style="min-width:300px">Descripció</th>
+	</tr>
+	<tr>
+		%# centre_add {{{
+		<form action="/admin/centre_add" method="post">
+			<td>
+				<input type="submit" value="Afegeix">
+			</td>
+			<td style='text-align:center;'>
+				<input type="number" name="places" min="0" max="9" value="0" >
+			</td>
+			<td style="text-align:right" >
+				<select name="docent">
+					%== $tag->tag_docent;
+				</select>
+			</td>
+			<td><input type="text" name="centre"  value="Nom del centre" 				style="width: 100%"></td>
+			<td><input type="text" name="descrip" value="Descripció del centre" style="width: 100%"></td>
+		</form>
+		%# }}}
+	</tr>
+	<tr>
+		<th></th><th>Places</th><th>Docent</th><th>Centre</th><th>Descripció</th>
+	</tr>
+	% foreach my $centre ( @$centres ) {
+		<tr>
+			%# centre_update {{{
+			<form action="/admin/centre_update" method="post">
+				<input type="hidden" name="id" 	value="<%= $centre->id %>">
+				<td>
+					<input type="submit" value="Modifica">
+				</td>
+				<td style='text-align:center;'>
+					<input type="number" name="places" min="0" max="9" value="<%= $centre->places %>" >
+				</td>
+				<td style="text-align:right" >
+					<select name="docent">
+						<option value="<%= $centre->docent %>"><%= $centre->doc_nom %></option>
+						%== $tag->tag_docent;
+					</select>
+				</td>
+				<td><input type="text" name="centre"  value="<%= $centre->centre  %>" style="width: 100%"></td>
+				<td><input type="text" name="descrip" value="<%= $centre->descrip %>" style="width: 100%"></td>
+			</form>
+			%# }}}
+			%# centre_del {{{
+			<td>
+				<form action="/admin/centre_del" method="get">
+					<input type="hidden" name="id" 	value="<%= $centre->id %>">
+					<input type="submit" value="Esborra">
+				</form>
+			</td>
+			%# }}}
+		</tr>
+	% }
+</table>

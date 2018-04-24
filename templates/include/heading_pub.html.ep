@@ -1,0 +1,21 @@
+<div class="header">
+	% my %link;
+	% my $i=0;
+	% $link{$i++} = [ 'Inici' 		, '/' ];
+	% $link{$i++} = [ 'Calendari' , '/pub/calendari'];
+	% $link{$i++} = [ 'Gestio'		, '/ges/inici'];
+	% foreach my $modul ( qw/ M1 M2a M2b M3a M3b M3d M3e M4 M5a M5b M5c / ) {
+	%	$link{$i++} = [ $modul			, "/pub/modul/$modul"];
+	% }
+	% $link{$i++}	= [ 'M5d'			  , '/pub/tfm'];
+	% $link{$i++}	= [ 'M6'			  , '/pub/tfm'];
+	<table>
+		<tr>
+			% foreach my $number (sort { $a <=> $b } keys %link) {
+				<td>
+					%= link_to $link{$number}->[0] => $link{$number}->[1];
+				</td>
+			% }
+		</tr>
+	</table>
+</div>

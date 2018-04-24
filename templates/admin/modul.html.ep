@@ -1,0 +1,88 @@
+% layout 'admin';
+% title "Mòdul " . $mod->modul;
+
+%= t h1 => $mod->modul . " " . $mod->nom_modul;
+<h3>
+  <form action="<%= '/admin/estud/' . $mod->modul %>" method="get">
+    Mòdul
+    %= $mod->tipus
+    ,
+    %= $mod->credits
+    Crèdits, 
+    %= $mod->total
+    h.totals,
+    <input type="number" name="n_estud" min="1" max="30" value="<%= $mod->n_estud %>" >
+    estudiants.
+    <input type="submit" value="modifica">
+  </form>
+</h3>
+
+%= t h2 => "Persona que coordina: " . $mod->doc_nom;
+
+<p><b>Docents</b>: <%== $h_docents %></p>
+
+%# Taula {{{
+<table>
+	<tr><th></th><th>Dia</th><th>Hora</th><th>Dur.</th><th>Docent</th><th style="width: 50%;">Títol Sessió</th></tr>
+	% foreach my $sessio ( @$sessions ) {
+		<tr>
+			<form action="/admin/update_sessio" method="post">
+			%# submit modifica {{{
+			<td>
+				<input type="hidden" name="id" 		value="<%= $sessio->id %>">
+				<input type="hidden" name="festa" value="0">
+				<input type="hidden" name="modul" value="<%= $sessio->modul %>">
+				<input type="hidden" name="url"	value="<%= "/admin/modul/" . $sessio->modul %>">
+				<input type="submit" value="Modifica">
+			</td>
+			%# }}}
+			%# date {{{
+			<td>
+				<input type="date" name="date" value="<%= $sessio->sessio_date->{'ymd'} %>" min="2017-09-18" max="2019-07-30">
+			</td>
+			%# }}}
+			%# hora {{{
+			<td>
+				<select name="hora">
+					<option value="<%= $sessio->sessio_hora->{'inici'} %>"><%= $sessio->sessio_hora->{'inici'} . ":00" %></option>
+					%== $tag->tag_hora
+				</select>
+			</td>
+			%# }}}
+			%# durada {{{
+			<td>
+				<select name="durada">
+					<option value="<%= $sessio->durada %>"><%= $sessio->durada . "h"%></option>
+					%== $tag->tag_durada;
+				</select>
+			</td>
+			%# }}}
+			%# docent {{{
+			<td>
+				<select name="docent">
+					<option value="<%= $sessio->docent %>"><%= $sessio->doc_nom %></option>
+					%== $tag->tag_docent;
+				</select>
+			</td>
+			%# }}}
+			%# tema {{{
+			<td>
+				<input type="text" name="tema" value="<%= $sessio->tema %>" style="width: 150%">
+			</td>
+			%# }}}
+			</form>
+			%# Submit esborra {{{
+			<td>
+				<form action="/admin/borrar_sessio" method="get">
+					<input type="hidden" name="id" 	value="<%= $sessio->id %>">
+					<input type="hidden" name="url" value="<%= "/admin/modul/$modul" %>">
+					<input type="submit" value="Esborra">
+				</form>
+			</td>
+			%# }}}
+		</tr>
+	% }
+</table>
+
+%# }}}
+

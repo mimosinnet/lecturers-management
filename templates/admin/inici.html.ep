@@ -1,0 +1,15 @@
+% layout 'admin';
+% title 'Gestió Màster';
+
+<h1 style="color:red;">Gestió Màster Investigació i Intervenció Psicosocial</h1>
+<h2 style="color:red;">(Estàs en la zona d'administració.)</h1>
+
+<ul style="font-size: 1.5em;">
+	<li><a href="/admin/moduls">Mòduls</a></li>
+
+	<li><a href="/admin/calendari">Calendari</a></li>
+	<li><a href="/admin/centres">Centres de Pràctiques</a></li>
+	% foreach my $mod ( @{ $moduls } ) {
+		<li><a href="<%= '/admin/modul/' . $mod->modul %>"><%= $mod->modul . ": " . $mod->nom_modul %></a></li>
+	% }
+</ul>

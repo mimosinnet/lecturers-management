@@ -1,0 +1,126 @@
+% layout 'admin';
+% title "Mòdul M5d/M6";
+
+<div style="font-size:80%">
+%= t h1 => $M5d->modul . " " . $M5d->nom_modul;
+<h3>
+  <form action="/admin/estud/M5d" method="get">
+    Mòdul
+    %= $M5d->tipus
+    ,
+    %= $M5d->credits
+    Crèdits, 
+    %= $M5d->total
+    h.totals,
+    <input type="number" name="n_estud" min="1" max="30" value="<%= $M5d->n_estud %>" >
+    estudiants.
+    <input type="submit" value="modifica">
+  </form>
+</h3>
+%= t h1 => $M6->modul . " " . $M6->nom_modul;
+<h3>
+  <form action="/admin/estud/M6" method="get">
+    Mòdul
+    %= $M6->tipus
+    ,
+    %= $M6->credits
+    Crèdits, 
+    %= $M6->total
+    h.totals,
+    <input type="number" name="n_estud" min="1" max="30" value="<%= $M6->n_estud %>" >
+    estudiants.
+    <input type="submit" value="modifica">
+  </form>
+</h3>
+%= t h2 => "Coordina " . $M5d->doc_nom . " (M5) i " . $M6->doc_nom . " (M6)";
+</div>
+
+<p><%== $h_tfm %></p>
+
+%# Taula {{{
+<table style="text-align: center;">
+  <tr><th></th><th>M5</th><th>M6</th><th>Docent</th><th>Estudiant</th><th>Tema</th><th>Observacions</th></tr>
+	<form action="/admin/tfm_add" method="post">
+		<tr style="border: 1px solid black">
+			<td>
+				<input type="submit" value="Afegeix">
+			</td>
+			<td>
+				<select name="M5d">
+					<option value="0">No</option>
+					<option value="1">Si</option>
+				</select>
+			</td>
+      <td>
+				<select name="M6">
+					<option value="0">No</option>
+					<option value="1">Si</option>
+				</select>
+			</td>
+			<td style="text-align:left;">
+				<select name="docent">
+					%== $tag->tag_docent;
+				</select>
+			</td>
+			<td>
+				<input type="text" name="estud"  value="Nom Estudiant" style="width: 100%">
+			</td>
+			<td style="text-align: left">
+				<input type="text" name="titol"  value="Tema/Títol treball" style="width: 100%">
+			</td>
+			<td>
+				<input type="text" name="observ" value="Observacions" style="width: 100%">
+			</td>
+		</tr>
+	</form>
+	<tr><td></td><td>M5d</td><td>M6</td><td>Docent</td><td>Estudiant</td><td>Tema</td><th>Observacions</th></tr>
+	% foreach my $tfm ( @$tfm ) {
+		<tr style="border: 1px solid black">
+			<form action="/admin/tfm_update" method="post">
+			<input type="hidden" name="id" 	value="<%= $tfm->id %>">
+				<td>
+					<input type="submit" value="Modifica">
+				</td>
+				<td>
+					<select name="M5d">
+						<option value="<%= $tfm->M5d %>"><%= $tfm->M5d %></option>
+						<option value="0">0-No</option>
+						<option value="1">1-Si</option>
+					</select>
+				</td>
+				<td>
+					<select name="M6">
+						<option value="<%= $tfm->M6 %>"><%= $tfm->M6 %></option>
+						<option value="0">0-No</option>
+						<option value="1">1-Si</option>
+					</select>
+				</td>
+				<td style="text-align:left;">
+					<select name="docent">
+						<option value="<%= $tfm->docent %>"><%= $tfm->doc_nom %></option>
+						%== $tag->tag_docent;
+					</select>
+				</td>
+				<td>
+					<input type="text" name="estud"  value="<%= $tfm->estud  %>" style="width: 100%">
+				</td>
+				<td style="text-align: left">
+					<input type="text" name="titol"  value="<%= $tfm->titol  %>" style="width: 100%">
+				</td>
+        <td>
+          <input type="text" name="observ" value="<%= $tfm->observ %>" style="width: 100%">
+        </td>
+				</form>
+				<td>
+          %# tfm_del {{{
+			    <form action="/admin/tfm_del" method="get">
+					  <input type="hidden" name="id" 	value="<%= $tfm->id %>">
+					  <input type="submit" value="Esborra">
+			    </form>
+          %# }}}
+				</td>
+		</tr>
+	% }
+</table>
+%# }}}
+
